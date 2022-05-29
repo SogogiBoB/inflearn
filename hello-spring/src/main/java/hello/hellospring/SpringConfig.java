@@ -1,5 +1,6 @@
 package hello.hellospring;
 
+import hello.hellospring.aop.TimeTraceAop;
 import hello.hellospring.repository.*;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +20,35 @@ public class SpringConfig {
         this.dataSource = dataSource;
     }*/
 
-    private EntityManager em;
+    /*private EntityManager em;
 
     public SpringConfig(EntityManager em) {
         this.em = em;
+    }*/
+
+    //스프링 데이터 JPA 가 구현체를 만들고 빈을 자동으로 등록해줌
+    private final MemberRepository memberRepository;
+
+    public SpringConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     @Bean
     public MemberService memberService() {
-        return new MemberService(memberRepository());
+        return new MemberService(memberRepository);
     }
 
-    @Bean
+    /*@Bean
+    public TimeTraceAop timeTraceAop() {
+        return new TimeTraceAop();
+    }*/
+
+    /*@Bean
     public MemberRepository memberRepository() {
         //return new MemoryMemberRepository();
         //return new JdbcMemberRepository(dataSource);
         //return new JdbcTemplateMemberRepository(dataSource);
-        return new JpaMemberRepository(em);
-    }
+        //return new JpaMemberRepository(em);
+
+    }*/
 }
